@@ -42,16 +42,26 @@ func main() {
 	sort.Ints(list1)
 	sort.Ints(list2)
 
-	var total int
+	var part1 int
+	var part2 int
+
+	frequencyMap1 := make(map[int]int)
+	frequencyMap2 := make(map[int]int)
 
 	for i := 0; i < len(list1); i++ {
 		current := list1[i] - list2[i]
 		if current < 0 {
-			total -= current
-		} else {
-			total += current
+			current = -current
 		}
+		part1 += current
+		frequencyMap1[list1[i]]++
+		frequencyMap2[list2[i]]++
 	}
 
-	fmt.Print("Part 1:", total)
+	for key, count := range frequencyMap1 {
+		part2 += key * count * frequencyMap2[key]
+	}
+
+	fmt.Println("Part 1:", part1)
+	fmt.Println("Part 2:", part2)
 }
