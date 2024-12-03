@@ -2,7 +2,6 @@ package day02
 
 import (
 	"aoc/utils"
-	"fmt"
 	"strconv"
 	"strings"
 )
@@ -12,12 +11,7 @@ var part1 int
 var part2 int
 
 func init() {
-	var err error
-	lines, err = utils.ReadLines("res/day02.in")
-	if err != nil {
-		fmt.Println("Error reading the file:", err)
-		return
-	}
+	lines = utils.ReadLines("res/day02.in")
 }
 
 func Part1() int {
