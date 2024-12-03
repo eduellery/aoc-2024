@@ -7,16 +7,20 @@ import (
 	"strings"
 )
 
+var lines []string
 var part1 int
 var part2 int
 
-func Day02() {
-	lines, err := utils.ReadLines("res/day02.in")
+func init() {
+	var err error
+	lines, err = utils.ReadLines("res/day02.in")
 	if err != nil {
 		fmt.Println("Error reading the file:", err)
 		return
 	}
+}
 
+func Part1() int {
 	for _, line := range lines {
 		levels := strings.Fields(line)
 
@@ -63,8 +67,10 @@ func Day02() {
 
 	}
 
-	fmt.Println("Part 1:", part1)
+	return part1
+}
 
+func Part2() int {
 	for _, line := range lines {
 		levels := strings.Fields(line)
 
@@ -120,7 +126,7 @@ func Day02() {
 
 	}
 
-	fmt.Println("Part 2:", part2)
+	return part2
 }
 
 func withinLimit(min int, max int) bool {

@@ -9,5 +9,6 @@ import (
 func main() {
 	fmt.Println("Day 01 - part 1:", day01.Part1())
 	fmt.Println("Day 01 - part 2:", day01.Part2())
-	day02.Day02()
+	fmt.Println("Day 02 - part 1:", day02.Part1())
+	fmt.Println("Day 02 - part 2:", day02.Part2())
 }
