@@ -10,14 +10,36 @@ import (
 
 var part1 int
 var part2 int
+var frequencyMap1 map[int]int
+var frequencyMap2 map[int]int
 
-func Day01() {
+func init() {
 	lines, err := utils.ReadLines("res/day01.in")
 	if err != nil {
 		fmt.Println("Error reading the file:", err)
 		return
 	}
 
+	list1, list2 := extractLocations(lines)
+
+	sort.Ints(list1)
+	sort.Ints(list2)
+
+	frequencyMap1 = make(map[int]int)
+	frequencyMap2 = make(map[int]int)
+
+	for i := 0; i < len(list1); i++ {
+		current := list1[i] - list2[i]
+		if current < 0 {
+			current = -current
+		}
+		part1 += current
+		frequencyMap1[list1[i]]++
+		frequencyMap2[list2[i]]++
+	}
+}
+
+func extractLocations(lines []string) ([]int, []int) {
 	var list1, list2 []int
 
 	for _, line := range lines {
@@ -31,27 +53,17 @@ func Day01() {
 			list2 = append(list2, num2)
 		}
 	}
+	return list1, list2
+}
 
-	sort.Ints(list1)
-	sort.Ints(list2)
+func Part1() int {
+	return part1
+}
 
-	frequencyMap1 := make(map[int]int)
-	frequencyMap2 := make(map[int]int)
-
-	for i := 0; i < len(list1); i++ {
-		current := list1[i] - list2[i]
-		if current < 0 {
-			current = -current
-		}
-		part1 += current
-		frequencyMap1[list1[i]]++
-		frequencyMap2[list2[i]]++
-	}
-
+func Part2() int {
 	for key, count := range frequencyMap1 {
 		part2 += key * count * frequencyMap2[key]
 	}
 
-	fmt.Println("Part 1:", part1)
-	fmt.Println("Part 2:", part2)
+	return part2
 }
