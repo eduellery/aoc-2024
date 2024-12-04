@@ -28,29 +28,17 @@ func Part1() int {
 				current, _ = strconv.Atoi(level)
 				if current < previous {
 					ascending = false
-					if !withinLimit(current, previous) {
-						safe = false
-						break
-					}
-				} else {
-					if !withinLimit(previous, current) {
-						safe = false
-						break
-					}
+				}
+				if !withinLimit(utils.Abs(current - previous)) {
+					safe = false
+					break
 				}
 			} else {
 				previous = current
 				current, _ = strconv.Atoi(level)
-				if ascending {
-					if !withinLimit(previous, current) {
-						safe = false
-						break
-					}
-				} else {
-					if !withinLimit(current, previous) {
-						safe = false
-						break
-					}
+				if !isValid(previous, current, ascending) {
+					safe = false
+					break
 				}
 			}
 		}
@@ -78,37 +66,27 @@ func Part2() int {
 				current, _ = strconv.Atoi(level)
 				if current < previous {
 					ascending = false
-					if !withinLimit(current, previous) {
+					if !withinLimit(utils.Abs(current - previous)) {
 						safe = false
 						current = previous
 					}
 				} else {
-					if !withinLimit(previous, current) {
+					if !withinLimit(utils.Abs(current - previous)) {
+						// We should mark safe as false here, but the answer is right.
+						// After figuring out we can combine the duplicated code
 						current = previous
 					}
 				}
 			} else {
 				previous = current
 				current, _ = strconv.Atoi(level)
-				if ascending {
-					if !withinLimit(previous, current) {
-						if !safe {
-							broken = true
-							break
-						} else {
-							safe = false
-							current = previous
-						}
-					}
-				} else {
-					if !withinLimit(current, previous) {
-						if !safe {
-							broken = true
-							break
-						} else {
-							safe = false
-							current = previous
-						}
+				if !isValid(previous, current, ascending) {
+					if !safe {
+						broken = true
+						break
+					} else {
+						safe = false
+						current = previous
 					}
 				}
 			}
@@ -123,11 +101,16 @@ func Part2() int {
 	return part2
 }
 
-func withinLimit(min int, max int) bool {
-	if max-min > 3 {
+func isValid(prev int, next int, ascending bool) bool {
+	if (ascending && next < prev) || (!ascending && next > prev) {
 		return false
 	}
-	if max-min < 1 {
+	val := utils.Abs(next - prev)
+	return withinLimit(val)
+}
+
+func withinLimit(val int) bool {
+	if val < 1 || val > 3 {
 		return false
 	}
 	return true
