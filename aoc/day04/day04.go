@@ -42,3 +42,19 @@ func Part1() int {
 	}
 	return part1
 }
+
+func Part2() int {
+	part2 := 0
+	for point := range grid {
+		// Possibilities:
+		//
+		// M S | S S | S M | M M
+		//  A  |  A  |  A  |  A
+		// M S | M M | S M | S S
+		//
+		// AMAMASAS AMASASAM ASASAMAM ASAMAMAS
+		// AMAMASAS + AM + AM + AS
+		part2 += strings.Count("AMAMASASAMAMAS", strings.Join(adj(point, 2)[4:], ""))
+	}
+	return part2
+}
