@@ -5,6 +5,7 @@ import (
 	"aoc/day02"
 	"aoc/day03"
 	"aoc/day04"
+	"aoc/day05"
 	"fmt"
 )
 
@@ -17,4 +18,6 @@ func main() {
 	fmt.Println("Day 03 - part 2:", day03.Part2())
 	fmt.Println("Day 04 - part 1:", day04.Part1())
 	fmt.Println("Day 04 - part 2:", day04.Part2())
+	fmt.Println("Day 05 - part 1:", day05.Part1())
+	fmt.Println("Day 05 - part 2:", day05.Part2())
 }
