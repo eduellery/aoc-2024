@@ -19,8 +19,9 @@ func init() {
 			originalGrid[image.Point{y, x}] = letter
 			if letter == '^' {
 				originalShip = image.Point{y, x}
+			} else if letter == '.' {
+				total++
 			}
-			total++
 		}
 	}
 }
