@@ -33,6 +33,8 @@ func Part1() int {
 				if locationA == locationB {
 					continue
 				}
+				// Add the dist between pointB and pointA to pointB,
+				// which will create its counterpart (antinode)
 				test := locationB.Add(locationB.Sub(locationA))
 				if bounds[test] {
 					antinodes[test] = struct{}{}
@@ -54,6 +56,8 @@ func Part2() int {
 				if locationA == locationB {
 					continue
 				}
+				// Given a location, keep adding the dist to another location
+				// until it gets out of bounds. All generated locations are antinodes
 				for test := locationB.Sub(locationA); bounds[locationB]; locationB = locationB.Add(test) {
 					antinodes[locationB] = struct{}{}
 				}
