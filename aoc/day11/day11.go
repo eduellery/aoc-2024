@@ -2,40 +2,51 @@ package day11
 
 import (
 	"aoc/utils"
-	"slices"
 	"strconv"
 )
 
-var input []string
+var input = map[int]int{}
 
 func init() {
-	input = utils.ReadListOfStrings("res/day11.in")
+	strings := utils.ReadListOfStrings("res/day11.in")
+	for _, str := range strings {
+		number, _ := strconv.Atoi(str)
+		input[number]++
+	}
 }
 
-func transform(numbers []string) []string {
-	i := 0
-	for i < len(numbers) {
-		if numbers[i] == "0" {
-			numbers[i] = "1"
-		} else if x := len(numbers[i]); x%2 == 0 {
-			firstHalf, _ := strconv.Atoi(numbers[i][:x/2])
-			secondHalf, _ := strconv.Atoi(numbers[i][x/2:])
-			numbers = slices.Insert(numbers, i, strconv.Itoa(firstHalf))
-			i++
-			numbers[i] = strconv.Itoa(secondHalf)
+func transform(stones map[int]int) map[int]int {
+	var next = map[int]int{}
+	for key, value := range stones {
+		if key == 0 {
+			next[1] += value
+		} else if x := strconv.Itoa(key); len(x)%2 == 0 {
+			firstHalf, _ := strconv.Atoi(x[:len(x)/2])
+			secondHalf, _ := strconv.Atoi(x[len(x)/2:])
+			next[firstHalf] += value
+			next[secondHalf] += value
 		} else {
-			num, _ := strconv.Atoi(numbers[i])
-			numbers[i] = strconv.Itoa(num * 2024)
+			next[key*2024] += value
 		}
-		i++
 	}
-	return numbers
+	return next
 }
 
-func Part1() int {
-	var numbers = input
-	for i := 0; i < 25; i++ {
-		numbers = transform(numbers)
+func run(blinks int) (result int) {
+	var stones = input
+	for i := 0; i < blinks; i++ {
+		stones = transform(stones)
 	}
-	return len(numbers)
+	for _, value := range stones {
+		result += value
+	}
+	return result
+}
+
+func Part1() (result int) {
+	return run(25)
+}
+
+func Part2() (result int) {
+	return run(75)
 }
